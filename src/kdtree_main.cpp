@@ -50,13 +50,13 @@ int main(int argc, char **argv) {
     Point init_point = point_data[0];
     start_t = clock();
 #ifdef LINE
-    KDTreeBase tree = KDLineTree(point_data,kd_height);
+    KDTreeBase* tree = new KDLineTree(point_data,kd_height);
 #else
-    KDTreeBase tree = KDTree(point_data);
+    KDTreeBase* tree = new KDTree(point_data);
 #endif
-    tree.buildKDtree();
-    tree.init(init_point);
-    tree.sample(sample_number);
+    tree->buildKDtree();
+    tree->init(init_point);
+    tree->sample(sample_number);
 
     end_t = clock();
     std::cout << "Report:" << std::endl;
@@ -68,9 +68,10 @@ int main(int argc, char **argv) {
     std::cout << "    Points:" << point_data.size() << std::endl;
     std::cout << "    NPoint:" << sample_number << std::endl;
     std::cout << "    Time  :" << (double) (end_t - start_t) << "us" << std::endl;
-    std::cout << "    memory load rate: " << tree.memory_ops * 100.0 / (point_data.size() * sample_number) << "%"
+    std::cout << "    memory load rate: " << tree->memory_ops * 100.0 / (point_data.size() * sample_number) << "%"
               << std::endl;
-    std::cout << "    mult rate: " << tree.mult_ops * 100.0 / (point_data.size() * sample_number) << "%" << std::endl;
+    std::cout << "    mult rate: " << tree->mult_ops * 100.0 / (point_data.size() * sample_number) << "%" << std::endl;
+    delete tree;
 
 
     return 0;

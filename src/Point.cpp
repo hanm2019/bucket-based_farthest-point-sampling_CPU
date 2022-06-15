@@ -48,3 +48,11 @@ void Point::reset() {
     this->dis = 1 << 30;
 
 }
+
+Point::Point(const Point &obj) {
+    this->pos[0] = obj.pos[0];
+    this->pos[1] = obj.pos[1];
+    this->pos[2] = obj.pos[2];
+    this->dis = obj.dis;
+    this->id = obj.id;
+}

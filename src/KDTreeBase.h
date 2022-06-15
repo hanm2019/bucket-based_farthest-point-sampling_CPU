@@ -54,30 +54,17 @@ public:
 
     void init(const Point &ref) ;
 
-    virtual void addNode(NodePtr p){
-        printf("not implement");
-    }
-
     void cout_sample();
 
-    virtual bool leftNode(int high, int count){
-        printf("not implement");
-        return false;
-    }
+    virtual void addNode(NodePtr p) = 0;
 
-    virtual Point max_point(){
-        return Point();
-    }
+    virtual bool leftNode(int high, int count) = 0;
 
-    virtual void update_distance(const Point &ref_point){
-        printf("not implement");
-        return;
-    }
+    virtual Point max_point() = 0;
 
-    virtual void sample(const int sample_num){
-        printf("not implement");
-        return;
-    }
+    virtual void update_distance(const Point &ref_point) = 0;
+
+    virtual void sample(const int sample_num) = 0;
 };
 
 

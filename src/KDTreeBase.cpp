@@ -8,7 +8,7 @@ KDTreeBase::KDTreeBase(Points &data) : memory_ops(0), mult_ops(0), root_(nullptr
 }
 
 KDTreeBase::~KDTreeBase() {
-    deleteNode(root_);
+    if(root_!= nullptr) deleteNode(root_);
 }
 
 void KDTreeBase::deleteNode(NodePtr node_p) {

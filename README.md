@@ -8,7 +8,9 @@ we achieve  `42ms` on CPU for a 50k points (sample 4K point subset)
 
 ```
 make build
-./main kdtree_high num_sample_point 
+./baseline  num_sample_point filename
+./kdtree num_sample_point filename
+./kdlinetree tree_high num_sample_point filename
 ```
 
 
