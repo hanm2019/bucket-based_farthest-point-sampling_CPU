@@ -8,11 +8,6 @@ bool Point::operator<(const Point &aii) const {
     return dis < aii.dis;
 }
 
-double Point::operator[](int i) const {
-    if (i >= 0 && i < 3) return pos[i];
-    else return pos[0];
-}
-
 double Point::distance(const Point &b) {
     return pow((this->pos[0] - b.pos[0]), 2) +
            pow((this->pos[1] - b.pos[1]), 2) +
@@ -29,7 +24,7 @@ Point::Point() {
     this->pos[0] = 0;
     this->pos[1] = 0;
     this->pos[2] = 0;
-    this->id = 0;
+    this->id = 521;
 }
 
 Point::~Point() {

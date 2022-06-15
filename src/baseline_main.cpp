@@ -22,6 +22,7 @@ int main(int argc,char** argv) {
     }
 
     std::vector <Point> point_data;
+    std::vector <Point> sample_points;
     int count = 0;
     if (fin.is_open()) {
         double xx, yy, zz;
@@ -48,6 +49,7 @@ int main(int argc,char** argv) {
             }
         }
         ref_point = max_point;
+        sample_points.push_back(ref_point);
     }
 
     end_t = clock();
@@ -56,5 +58,7 @@ int main(int argc,char** argv) {
     std::cout << "    Points:" << point_data.size() << std::endl;
     std::cout << "    NPoint:" << sample_number << std::endl;
     std::cout << "    Time  :" << (double) (end_t - start_t) << "us" << std::endl;
-    std::cout << ref_point << std::endl;
+    int idsum = 0;
+    for(const auto& s:sample_points){idsum += s.id;}
+    std::cout << "id sum:" << idsum << std::endl;
 }

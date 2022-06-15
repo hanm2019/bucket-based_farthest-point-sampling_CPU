@@ -34,7 +34,7 @@ void KDLineTree::sample(const int sample_num) {
 }
 
 bool KDLineTree::leftNode(int high, int count) {
-    return high == high_ || count == 1;
+    return high == high_ || count == 0;
 }
 
 KDLineTree::KDLineTree(KDTreeBase::Points &data, int treeHigh) : KDTreeBase(data) {

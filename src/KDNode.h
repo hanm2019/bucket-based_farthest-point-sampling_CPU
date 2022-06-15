@@ -36,6 +36,8 @@ public:
     void update_distance(int &memory_ops, int &mult_ops) ;
 
     void reset();
+
+    int size();
 };
 
 

@@ -20,10 +20,12 @@ public:
     Point(const Point &obj);
     ~Point();
     friend std::ostream &operator<<(std::ostream &out, const Point &A) {
-        out << "Point: [" << A.pos[0] << ", " << A.pos[1] << ", " << A.pos[2] << "]  id:" << A.id << std::endl;
+        out << "Point: [" << A.pos[0] << ", " << A.pos[1] << ", " << A.pos[2] << "]  id:" << A.id  << "dist:" << A.dis;
         return out;
     }
-    double operator[](int i) const;
+    inline double operator[](int i) const{
+        return pos[i];
+    }
 
     double distance(const Point &b) ;
 

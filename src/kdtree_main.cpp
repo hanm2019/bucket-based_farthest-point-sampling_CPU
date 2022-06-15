@@ -45,34 +45,47 @@ int main(int argc, char **argv) {
     fin.close();
 
     clock_t start_t, end_t;
-
+    clock_t start_build_t, end_build_t;
     // 建立KD树
     Point init_point = point_data[0];
     start_t = clock();
 #ifdef LINE
-    KDTreeBase* tree = new KDLineTree(point_data,kd_height);
+    KDLineTree tree = KDLineTree(point_data,kd_height);
 #else
-    KDTreeBase* tree = new KDTree(point_data);
+    KDTree tree = KDTree(point_data);
 #endif
-    tree->buildKDtree();
-    tree->init(init_point);
-    tree->sample(sample_number);
+    start_build_t = clock();
+    printf("prebuildtree\n");
+    tree.buildKDtree();
+    end_build_t = clock();
+    printf("preinit\n");
+    tree.init(init_point);
+    printf("prerun\n");
+    tree.sample(sample_number);
 
     end_t = clock();
     std::cout << "Report:" << std::endl;
 #ifdef LINE
     std::cout << "    Type  :KDLineTree  " << "High:" << kd_height << std::endl;
+    int sum = 0;
+    for(auto node :tree.KDNode_list){
+        sum += node->points.size();
+    }
+    std::cout << "KDNodes sum:" << sum << std::endl;
+
 #else
     std::cout << "    Type  :KDTree" << std::endl;
+
 #endif
+    std::cout << "root sum:" << tree.root_->size()<< std::endl;
     std::cout << "    Points:" << point_data.size() << std::endl;
     std::cout << "    NPoint:" << sample_number << std::endl;
     std::cout << "    Time  :" << (double) (end_t - start_t) << "us" << std::endl;
-    std::cout << "    memory load rate: " << tree->memory_ops * 100.0 / (point_data.size() * sample_number) << "%"
+    std::cout << "Build Time  :" << (double) (end_build_t - start_build_t) << "us" << std::endl;
+    std::cout << "    memory load rate: " << tree.memory_ops * 100.0 / (point_data.size() * sample_number) << "%"
               << std::endl;
-    std::cout << "    mult rate: " << tree->mult_ops * 100.0 / (point_data.size() * sample_number) << "%" << std::endl;
-    delete tree;
-
+    std::cout << "    mult rate: " << tree.mult_ops * 100.0 / (point_data.size() * sample_number) << "%" << std::endl;
+    std::cout << "id sum:" << tree.verify() << std::endl;
 
     return 0;
 }

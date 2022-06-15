@@ -4,7 +4,7 @@ project(FPS_CPU)
 set(CMAKE_CXX_STANDARD 11)
 
 include_directories(src)
-
+#set(CMAKE_CXX_FLAGS "-O3")
 file(GLOB SOURCE src/Interval.cpp
         src/KDNode.cpp
         src/KDTreeBase.cpp

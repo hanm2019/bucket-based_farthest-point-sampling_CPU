@@ -23,7 +23,7 @@ void KDTree::sample(const int sample_num) {
 }
 
 bool KDTree::leftNode(int high, int count) {
-    return count == 1;
+    return count == 0;
 }
 
 KDTree::KDTree(KDTreeBase::Points &data) : KDTreeBase(data) {

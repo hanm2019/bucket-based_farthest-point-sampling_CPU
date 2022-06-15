@@ -4,8 +4,6 @@
 
 #include "KDNode.h"
 KDNode::KDNode() : left(NULL), right(NULL), max_point() {
-    points.clear();
-    delaypoints.clear();
 }
 
 KDNode::KDNode(const KDNode &a) {
@@ -23,6 +21,7 @@ void KDNode::init(const Point &ref) {
         this->left->init(ref);
         this->right->init(ref);
         updateMaxPoint(this->left->max_point, this->right->max_point);
+        std::cout << "left:" << this->left->max_point << "   right:" << this->right->max_point << "then choose" << this->max_point << std::endl;
     } else {
         double dis;
         double maxdis(0);
@@ -118,4 +117,10 @@ void KDNode::reset() {
         this->left->reset();
         this->right->reset();
     }
+}
+
+int KDNode::size() {
+    if(this->left && this->right)
+        return this->left->size() + this->right->size();
+    return this->points.size();
 }

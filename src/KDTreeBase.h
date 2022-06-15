@@ -35,22 +35,23 @@ public:
 
     NodePtr get_root();
 
+    int verify();
 
-
-    NodePtr divideTree(int left, int right, std::vector <Interval> *bbox_ptr, int curr_high);
+    NodePtr divideTree(int left, int right, std::vector <Interval> &bbox_ptr, int curr_high);
 
     void planeSplit(int left, int right, int split_dim,
                     float split_val, int &lim1, int &lim2) ;
 
-    void getValueList(int left, int right, int split_dim, std::vector<double> &value_list);
 
-    void qSelectMedian(std::vector<double> *value_list, double &median_value) ;
+    void qSelectMedian(int dim , int left, int right , double &median_value) ;
 
-    void findSplitDim(int &best_dim, std::vector <Interval> *bbox_ptr);
+    static void findSplitDim(int &best_dim, std::vector <Interval> &bbox_ptr);
 
-    void computeBoundingBox(int left, int right, std::vector <Interval> &bbox) ;
+    inline void computeBoundingBox(int left, int right, std::vector <Interval> &bbox) ;
 
-    void computeMinMax(int left, int right, int dim, Interval &bound) ;
+    inline void computeBoundingBox(int left, int right, std::vector <Interval> &bbox, int dim) ;
+
+    inline void computeMinMax(int left, int right, int dim, Interval &bound) ;
 
     void init(const Point &ref) ;
 
