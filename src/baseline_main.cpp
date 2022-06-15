@@ -38,7 +38,7 @@ int main(int argc,char** argv) {
     ref_point = init_point;
     double dis, max_dis;
     Point max_point;
-    for (int i = 1; i < sample_number; i++) {
+    for (int i = 0; i < sample_number; i++) {
         max_dis = 0;
         for (auto &p: point_data) {
             dis = p.updatedistance(ref_point);

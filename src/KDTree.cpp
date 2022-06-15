@@ -15,7 +15,7 @@ void KDTree::update_distance(const Point &ref_point) {
 
 void KDTree::sample(const int sample_num) {
     Point ref_point;
-    for (int i = 1; i < sample_num; i++) {
+    for (int i = 0; i < sample_num; i++) {
         ref_point = max_point();
         sample_points.push_back(ref_point);
         update_distance(ref_point);
