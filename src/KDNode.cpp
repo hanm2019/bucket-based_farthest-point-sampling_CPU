@@ -70,15 +70,19 @@ void KDNode::update_distance(int &memory_ops, int &mult_ops) {
             }
         } else {
             if (this->right && this->left) {
-                for (const auto &delay_point: delaypoints) {
-                    this->left->send_delay_point(delay_point);
-                    this->right->send_delay_point(delay_point);
+                if(!delaypoints.empty()){
+                    for (const auto &delay_point: delaypoints) {
+                        this->left->send_delay_point(delay_point);
+                        this->right->send_delay_point(delay_point);
+                    }
+                    delaypoints.clear();
                 }
-                if (!delaypoints.empty()) delaypoints.clear();
                 this->left->send_delay_point(ref_point);
+                this->left->update_distance(memory_ops, mult_ops);
+
                 this->right->send_delay_point(ref_point);
                 this->right->update_distance(memory_ops, mult_ops);
-                this->left->update_distance(memory_ops, mult_ops);
+                
                 updateMaxPoint(this->left->max_point, this->right->max_point);
             } else {
                 float dis;
