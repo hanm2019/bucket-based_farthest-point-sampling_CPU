@@ -6,6 +6,7 @@
 #include<fstream>
 #include "Point.h"
 #include "vector"
+#include "ctime"
 
 int main(int argc,char** argv) {
     if (argc != 3) {
@@ -54,11 +55,14 @@ int main(int argc,char** argv) {
 
     end_t = clock();
     std::cout << "Report:" << std::endl;
-    std::cout << "    Type  :Baseline" << std::endl;
-    std::cout << "    Points:" << point_data.size() << std::endl;
-    std::cout << "    NPoint:" << sample_number << std::endl;
-    std::cout << "    Time  :" << (double) (end_t - start_t) << "us" << std::endl;
-    int idsum = 0;
-    for(const auto& s:sample_points){idsum += s.id;}
-    std::cout << "id sum:" << idsum << std::endl;
+    std::cout << "    Type   :Baseline" << std::endl;
+    std::cout << "    Points :" << point_data.size() << std::endl;
+    std::cout << "    NPoint :" << sample_number << std::endl;
+    std::cout << "    RunTime:" << (double) (end_t - start_t) << "us" << std::endl;
+    int checkCode = 0;
+    for(const auto& s:sample_points){checkCode += s.id;}
+    std::cout << "    Check  :" << checkCode << std::endl;
+    std::cout << "    Param  :" << filename << std::endl;
+    std::time_t result = std::time(NULL);
+    std::cout << "  Timestamp:" << std::asctime(std::localtime(&result)) << std::endl;
 }

@@ -2,8 +2,8 @@
 #include<iostream>
 #include<fstream>
 #include<vector>
+#include "ctime"
 #include "Point.h"
-#include "KDTreeBase.h"
 #ifdef LINE
 #include "KDLineTree.h"
 #else
@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
     if (fin.is_open()) {
         double xx, yy, zz;
         while (fin >> xx >> yy >> zz) {
-            point_data.emplace_back(xx, yy, zz, 10000000, count);
+            point_data.emplace_back(xx, yy, zz, 1 << 30, count);
             count++;
         }
     }
@@ -63,26 +63,21 @@ int main(int argc, char **argv) {
     end_t = clock();
     std::cout << "Report:" << std::endl;
 #ifdef LINE
-    std::cout << "    Type  :KDLineTree  " << "High:" << kd_height << std::endl;
-    int sum = 0;
-    for(auto node :tree.KDNode_list){
-        sum += node->points->size();
-    }
-    std::cout << "KDNodes sum:" << sum << std::endl;
-
+    std::cout << "    Type   :KDLineTree  " << "High:" << kd_height << std::endl;
 #else
-    std::cout << "    Type  :KDTree" << std::endl;
+    std::cout << "    Type   :KDTree" << std::endl;
 
 #endif
-    std::cout << "root sum:" << tree.root_->size()<< std::endl;
-    std::cout << "    Points:" << point_data.size() << std::endl;
-    std::cout << "    NPoint:" << sample_number << std::endl;
-    std::cout << "    Time  :" << (double) (end_t - start_t) << "us" << std::endl;
-    std::cout << "Build Time  :" << (double) (end_build_t - start_build_t) << "us" << std::endl;
-    std::cout << "    memory load rate: " << tree.memory_ops * 100.0 / (point_data.size() * sample_number) << "%"
+    std::cout << "    Points :" << point_data.size() << std::endl;
+    std::cout << "    NPoint :" << sample_number << std::endl;
+    std::cout << "    RunTime:" << (double) (end_t - start_t) << "us" << std::endl;
+    std::cout << "    Build  :" << (double) (end_build_t - start_build_t) << "us" << std::endl;
+    std::cout << "    MM(%)  : " << tree.memory_ops * 100.0 / (point_data.size() * sample_number) << "%"
               << std::endl;
-    std::cout << "    mult rate: " << tree.mult_ops * 100.0 / (point_data.size() * sample_number) << "%" << std::endl;
-    std::cout << "id sum:" << tree.verify() << std::endl;
-
+    std::cout << "    OP(%)  : " << tree.mult_ops * 100.0 / (point_data.size() * sample_number) << "%" << std::endl;
+    std::cout << "    Check  :" << tree.verify() << std::endl;
+    std::cout << "    Param  :" << filename << std::endl;
+    std::time_t result = std::time(NULL);
+    std::cout << "  Timestamp:" << std::asctime(std::localtime(&result)) << std::endl;
     return 0;
 }

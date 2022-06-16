@@ -35,6 +35,7 @@ void KDNode::init(const Point &ref) {
 }
 
 void KDNode::updateMaxPoint(const Point &lpoint, const Point &rpoint) {
+
     if (lpoint.dis > rpoint.dis) this->max_point = lpoint;
     else this->max_point = rpoint;
 }
@@ -84,7 +85,7 @@ void KDNode::update_distance(int &memory_ops, int &mult_ops) {
                 float maxdis;
                 this->delaypoints.push_back(ref_point);
                 for (const auto &delay_point: delaypoints) {
-                    maxdis = 0;
+                    maxdis = -1;
                     for (auto &it: *points) {
                         dis = it.updatedistance(delay_point);
                         if (dis > maxdis) {
