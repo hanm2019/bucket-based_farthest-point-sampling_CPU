@@ -6,7 +6,7 @@
 
 Point KDLineTree::max_point() {
     Point tmpPoint;
-    double max_distance = 0;
+    float max_distance = 0;
     for(const auto& bucket : KDNode_list){
         if(bucket->max_point.dis > max_distance){
             max_distance = bucket->max_point.dis;

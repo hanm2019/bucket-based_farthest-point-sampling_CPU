@@ -55,12 +55,9 @@ int main(int argc, char **argv) {
     KDTree tree = KDTree(point_data);
 #endif
     start_build_t = clock();
-    printf("prebuildtree\n");
     tree.buildKDtree();
     end_build_t = clock();
-    printf("preinit\n");
     tree.init(init_point);
-    printf("prerun\n");
     tree.sample(sample_number);
 
     end_t = clock();
@@ -69,7 +66,7 @@ int main(int argc, char **argv) {
     std::cout << "    Type  :KDLineTree  " << "High:" << kd_height << std::endl;
     int sum = 0;
     for(auto node :tree.KDNode_list){
-        sum += node->points.size();
+        sum += node->points->size();
     }
     std::cout << "KDNodes sum:" << sum << std::endl;
 

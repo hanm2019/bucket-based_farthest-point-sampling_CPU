@@ -25,7 +25,7 @@ int main(int argc,char** argv) {
     std::vector <Point> sample_points;
     int count = 0;
     if (fin.is_open()) {
-        double xx, yy, zz;
+        float xx, yy, zz;
         while (fin >> xx >> yy >> zz) {
             point_data.push_back({xx, yy, zz, 10000000, count});
             count++;
@@ -37,7 +37,7 @@ int main(int argc,char** argv) {
     start_t = clock();
     Point ref_point;
     ref_point = init_point;
-    double dis, max_dis;
+    float dis, max_dis;
     Point max_point;
     for (int i = 0; i < sample_number; i++) {
         max_dis = 0;

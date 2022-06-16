@@ -10,28 +10,28 @@
 
 class Point {
 public:
-    double pos[3]; // x, y, z
-    double dis;
+    float pos[3]; // x, y, z
+    float dis;
     int id;
 
     bool operator<(const Point &aii) const ;
     Point();
-    Point(double x, double y, double z, double dis, int id);
+    Point(float x, float y, float z, float dis, int id);
     Point(const Point &obj);
     ~Point();
     friend std::ostream &operator<<(std::ostream &out, const Point &A) {
         out << "Point: [" << A.pos[0] << ", " << A.pos[1] << ", " << A.pos[2] << "]  id:" << A.id  << "dist:" << A.dis;
         return out;
     }
-    inline double operator[](int i) const{
+    inline float operator[](int i) const{
         return pos[i];
     }
 
-    double distance(const Point &b) ;
+    float distance(const Point &b) ;
 
     void reset();
 
-    double updatedistance(const Point &ref) ;
+    float updatedistance(const Point &ref) ;
 };
 
 

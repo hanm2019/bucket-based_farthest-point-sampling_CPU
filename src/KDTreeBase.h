@@ -43,7 +43,7 @@ public:
                     float split_val, int &lim1, int &lim2) ;
 
 
-    void qSelectMedian(int dim , int left, int right , double &median_value) ;
+    void qSelectMedian(int dim , int left, int right , float &median_value) ;
 
     static void findSplitDim(int &best_dim, std::vector <Interval> &bbox_ptr);
 

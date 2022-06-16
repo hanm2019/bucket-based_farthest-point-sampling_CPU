@@ -13,9 +13,9 @@ using namespace std;
 
 class KDNode {
 public:
-    std::vector <Point> points;
+    std::vector <Point>* points;
     std::vector <Interval> bbox;
-    std::queue <Point> waitpoints;
+    std::vector<Point> waitpoints;
     std::vector <Point> delaypoints;
     Point max_point;
     KDNode *left;
@@ -29,7 +29,7 @@ public:
 
     void updateMaxPoint(const Point &lpoint, const Point &rpoint);
 
-    double bound_distance(const Point &ref_point);
+    float bound_distance(const Point &ref_point);
 
     void send_delay_point(const Point &point) ;
 

@@ -14,6 +14,7 @@ KDTreeBase::~KDTreeBase() {
 void KDTreeBase::deleteNode(NodePtr node_p) {
     if (node_p->left) deleteNode(node_p->left);
     if (node_p->right) deleteNode(node_p->right);
+    delete node_p->points;
     delete node_p;
 }
 
@@ -32,21 +33,20 @@ KDNode * KDTreeBase::divideTree(int left, int right, std::vector <Interval> &bbo
     node->bbox = bbox_ptr;
     int count = right - left;
     if(leftNode(curr_high,count)){
-        node->left = nullptr;
-        node->right = nullptr;
-        node->points.assign(points_.begin() + left, points_.begin() + right + 1);
-        printf("debug left:%d right:%d points.size:%d\n",left, right, points_.size());
+        node->points = new std::vector<Point>(points_.begin() + left, points_.begin() + right + 1);
         addNode(node);
         return node;
     } else {
         int split_dim = 0;
-        double split_val = 0.0;
+        float split_val = 0.0;
         findSplitDim(split_dim, bbox_ptr);
         qSelectMedian(split_dim, left, right, split_val);
 
         int lim1 = 0, lim2 = 0, split_delta;
         planeSplit(left, right, split_dim, split_val, lim1, lim2);
         split_delta = (lim1 + lim2) / 2;
+        if(split_delta < 0) split_delta = 0;
+        if(split_delta > (right - left - 1)) split_delta = (right - left - 1);
         std::vector <Interval> bbox_cur(bbox_ptr);
         computeBoundingBox(left, left + split_delta, bbox_cur,split_dim);
         node->left = divideTree(left, left + split_delta, bbox_cur, curr_high + 1);
@@ -89,8 +89,8 @@ void KDTreeBase::planeSplit(int left, int right, int split_dim,
 }
 
 
-void KDTreeBase::qSelectMedian(int dim, int left, int right , double &median_value) {
-    double sum = 0;
+void KDTreeBase::qSelectMedian(int dim, int left, int right , float &median_value) {
+    float sum = 0;
     for (int i = left; i <= right; i++)
         sum += points_[i].pos[dim];
     median_value = sum / (right - left + 1);
@@ -99,8 +99,8 @@ void KDTreeBase::qSelectMedian(int dim, int left, int right , double &median_val
 
 void KDTreeBase::findSplitDim(int &best_dim, std::vector <Interval> &bbox_ptr) {
 
-    double min_ ,max_ ;
-    double span = 0.0;
+    float min_ ,max_ ;
+    float span = 0.0;
 
     for (int cur_dim = 0; cur_dim < bbox_ptr.size(); cur_dim++) {
         min_ = (bbox_ptr)[cur_dim].low;
@@ -114,16 +114,16 @@ void KDTreeBase::findSplitDim(int &best_dim, std::vector <Interval> &bbox_ptr) {
 }
 
 inline void KDTreeBase::computeBoundingBox(int left, int right, std::vector <Interval> &bbox) {
-    double min_val_0 = points_[left][0];
-    double max_val_0 = points_[left][0];
-    double min_val_1 = points_[left][1];
-    double max_val_1 = points_[left][1];
-    double min_val_2 = points_[left][2];
-    double max_val_2 = points_[left][2];
+    float min_val_0 = points_[left][0];
+    float max_val_0 = points_[left][0];
+    float min_val_1 = points_[left][1];
+    float max_val_1 = points_[left][1];
+    float min_val_2 = points_[left][2];
+    float max_val_2 = points_[left][2];
 
-    double val_0,val_1,val_2;
+    float val_0,val_1,val_2;
     for (int i = left + 1; i <= right; ++i) {
-        double* pos = points_[i].pos;
+        float* pos = points_[i].pos;
         val_0 = pos[0];
         val_1 = pos[1];
         val_2 = pos[2];
@@ -153,11 +153,11 @@ inline void KDTreeBase::computeBoundingBox(int left, int right, vector<Interval>
 }
 
 inline void KDTreeBase::computeMinMax(int left, int right, int dim, Interval &bound) {
-    double min_val = points_[left][dim];
-    double max_val = points_[left][dim];
+    float min_val = points_[left][dim];
+    float max_val = points_[left][dim];
     for (int i = left + 1; i <= right; ++i) {
 
-        double val = points_[i][dim];
+        float val = points_[i][dim];
 
         if (val < min_val) min_val = val;
         if (val > max_val) max_val = val;

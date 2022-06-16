@@ -8,7 +8,7 @@
 
 class Interval {
 public:
-    double low, high;
+    float low, high;
     Interval();
 };
 

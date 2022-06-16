@@ -8,13 +8,13 @@ bool Point::operator<(const Point &aii) const {
     return dis < aii.dis;
 }
 
-double Point::distance(const Point &b) {
+float Point::distance(const Point &b) {
     return pow((this->pos[0] - b.pos[0]), 2) +
            pow((this->pos[1] - b.pos[1]), 2) +
            pow((this->pos[2] - b.pos[2]), 2);
 }
 
-double Point::updatedistance(const Point &ref) {
+float Point::updatedistance(const Point &ref) {
     this->dis = std::min(this->dis, distance(ref));
     return this->dis;
 }
@@ -24,14 +24,14 @@ Point::Point() {
     this->pos[0] = 0;
     this->pos[1] = 0;
     this->pos[2] = 0;
-    this->id = 521;
+    this->id = 0;
 }
 
 Point::~Point() {
 
 }
 
-Point::Point(double x, double y, double z, double dis, int id) {
+Point::Point(float x, float y, float z, float dis, int id) {
     this->dis = dis;
     this->pos[0] = x;
     this->pos[1] = y;
