@@ -12,10 +12,10 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
             "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
 
+SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
+SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
+
 include_directories(src)
-if(O3)
-    set(CMAKE_CXX_FLAGS "-O3")
-endif(O3)
 
 file(GLOB SOURCE src/Interval.cpp
         src/KDNode.cpp

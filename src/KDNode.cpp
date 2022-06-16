@@ -82,7 +82,7 @@ void KDNode::update_distance(int &memory_ops, int &mult_ops) {
 
                 this->right->send_delay_point(ref_point);
                 this->right->update_distance(memory_ops, mult_ops);
-                
+
                 updateMaxPoint(this->left->max_point, this->right->max_point);
             } else {
                 float dis;
