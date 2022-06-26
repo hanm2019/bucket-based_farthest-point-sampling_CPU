@@ -102,12 +102,12 @@ void KDTreeBase::findSplitDim(int &best_dim, std::vector <Interval> &bbox_ptr) {
     float min_ ,max_ ;
     float span = 0.0;
 
-    for (int cur_dim = 0; cur_dim < bbox_ptr.size(); cur_dim++) {
+    for (size_t cur_dim = 0; cur_dim < bbox_ptr.size(); cur_dim++) {
         min_ = (bbox_ptr)[cur_dim].low;
         max_ = (bbox_ptr)[cur_dim].high;
 
         if ((max_ - min_) > span) {
-            best_dim = cur_dim;
+            best_dim = (int)cur_dim;
             span = (max_ - min_);
         }
     }
