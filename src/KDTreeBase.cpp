@@ -48,9 +48,9 @@ KDNode * KDTreeBase::divideTree(int left, int right, std::vector <Interval> &bbo
         if(split_delta < 0) split_delta = 0;
         if(split_delta > (right - left - 1)) split_delta = (right - left - 1);
         std::vector <Interval> bbox_cur(bbox_ptr);
-        computeBoundingBox(left, left + split_delta, bbox_cur,split_dim);
+        computeBoundingBox(left, left + split_delta, bbox_cur);
         node->left = divideTree(left, left + split_delta, bbox_cur, curr_high + 1);
-        computeBoundingBox(left + split_delta + 1, right, bbox_cur,split_dim);
+        computeBoundingBox(left + split_delta + 1, right, bbox_cur);
         node->right = divideTree(left + split_delta + 1, right, bbox_cur, curr_high + 1);
         return node;
     }
