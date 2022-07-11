@@ -9,7 +9,7 @@
 class KDLineTree :public KDTreeBase{
 public:
 
-    KDLineTree(KDTreeBase::Points &data, int treeHigh);
+    KDLineTree(KDTreeBase::Points &data, int pointSize, int treeHigh, KDTreeBase::Points &samplePoints);
     ~KDLineTree();
     std::vector<NodePtr> KDNode_list;
 

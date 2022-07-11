@@ -13,7 +13,10 @@ using namespace std;
 
 class KDNode {
 public:
-    std::vector <Point>* points;
+    typedef Point* Points;
+    Points points;
+    int pointLeft, pointRight;
+
     std::vector <Interval> bbox;
     std::vector<Point> waitpoints;
     std::vector <Point> delaypoints;
@@ -21,7 +24,7 @@ public:
     KDNode *left;
     KDNode *right;
 
-    KDNode();
+    KDNode(Points data);
 
     KDNode(const KDNode &a);
 

@@ -9,9 +9,9 @@ bool Point::operator<(const Point &aii) const {
 }
 
 float Point::distance(const Point &b) {
-    return pow((this->pos[0] - b.pos[0]), 2) +
-           pow((this->pos[1] - b.pos[1]), 2) +
-           pow((this->pos[2] - b.pos[2]), 2);
+    return pow2((this->pos[0] - b.pos[0])) +
+           pow2((this->pos[1] - b.pos[1])) +
+           pow2((this->pos[2] - b.pos[2]));
 }
 
 float Point::updatedistance(const Point &ref) {
@@ -20,16 +20,14 @@ float Point::updatedistance(const Point &ref) {
 }
 
 Point::Point() {
-    this->dis = 1<<30;
+    this->dis = 1e20;
     this->pos[0] = 0;
     this->pos[1] = 0;
     this->pos[2] = 0;
     this->id = 0;
 }
 
-Point::~Point() {
-
-}
+Point::~Point() = default;
 
 Point::Point(float x, float y, float z, float dis, int id) {
     this->dis = dis;
@@ -40,7 +38,7 @@ Point::Point(float x, float y, float z, float dis, int id) {
 }
 
 void Point::reset() {
-    this->dis = 1 << 30;
+    this->dis = 1e20;
 
 }
 

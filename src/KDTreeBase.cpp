@@ -3,8 +3,7 @@
 //
 
 #include "KDTreeBase.h"
-KDTreeBase::KDTreeBase(Points &data) : memory_ops(0), mult_ops(0), root_(nullptr) {
-    points_ = data;
+KDTreeBase::KDTreeBase(Points &data,int pointSize, Points &samplePoints) : pointSize(pointSize), memory_ops(0), mult_ops(0),sample_points(samplePoints),root_(nullptr),points_(data){
 }
 
 KDTreeBase::~KDTreeBase() {
@@ -14,14 +13,13 @@ KDTreeBase::~KDTreeBase() {
 void KDTreeBase::deleteNode(NodePtr node_p) {
     if (node_p->left) deleteNode(node_p->left);
     if (node_p->right) deleteNode(node_p->right);
-    delete node_p->points;
     delete node_p;
 }
 
 void KDTreeBase::buildKDtree() {
     std::vector <Interval> bbox(3);
     int left = 0;
-    int right = points_.size() - 1;
+    int right = pointSize;
     computeBoundingBox(left, right, bbox);
     root_ = divideTree(left, right, bbox, 0);
 }
@@ -29,11 +27,14 @@ void KDTreeBase::buildKDtree() {
 KDNode * KDTreeBase::get_root() { return root_; }
 
 KDNode * KDTreeBase::divideTree(int left, int right, std::vector <Interval> &bbox_ptr, int curr_high) {
-    NodePtr node = new KDNode();
+    NodePtr node = new KDNode(points_);
     node->bbox = bbox_ptr;
     int count = right - left;
     if(leftNode(curr_high,count)){
-        node->points = new std::vector<Point>(points_.begin() + left, points_.begin() + right + 1);
+        node->pointLeft = left;
+        node->pointRight = right;
+
+        //node->points = new std::vector<Point>(points_.begin() + left, points_.begin() + right + 1);
         addNode(node);
         return node;
     } else {
@@ -45,13 +46,13 @@ KDNode * KDTreeBase::divideTree(int left, int right, std::vector <Interval> &bbo
         int lim1 = 0, lim2 = 0, split_delta;
         planeSplit(left, right, split_dim, split_val, lim1, lim2);
         split_delta = (lim1 + lim2) / 2;
-        if(split_delta < 0) split_delta = 0;
-        if(split_delta > (right - left - 1)) split_delta = (right - left - 1);
+        if(split_delta < 1) split_delta = 1;
+        if(split_delta >= (right - left)) split_delta = (right - left - 1);
         std::vector <Interval> bbox_cur(bbox_ptr);
         computeBoundingBox(left, left + split_delta, bbox_cur);
         node->left = divideTree(left, left + split_delta, bbox_cur, curr_high + 1);
-        computeBoundingBox(left + split_delta + 1, right, bbox_cur);
-        node->right = divideTree(left + split_delta + 1, right, bbox_cur, curr_high + 1);
+        computeBoundingBox(left + split_delta, right, bbox_cur);
+        node->right = divideTree(left + split_delta, right, bbox_cur, curr_high + 1);
         return node;
     }
 }
@@ -91,9 +92,9 @@ void KDTreeBase::planeSplit(int left, int right, int split_dim,
 
 void KDTreeBase::qSelectMedian(int dim, int left, int right , float &median_value) {
     float sum = 0;
-    for (int i = left; i <= right; i++)
+    for (int i = left; i < right; i++)
         sum += points_[i].pos[dim];
-    median_value = sum / (right - left + 1);
+    median_value = sum / (right - left);
 }
 
 
@@ -122,7 +123,7 @@ inline void KDTreeBase::computeBoundingBox(int left, int right, std::vector <Int
     float max_val_2 = points_[left][2];
 
     float val_0,val_1,val_2;
-    for (int i = left + 1; i <= right; ++i) {
+    for (int i = left + 1; i < right; ++i) {
         float* pos = points_[i].pos;
         val_0 = pos[0];
         val_1 = pos[1];
@@ -155,7 +156,7 @@ inline void KDTreeBase::computeBoundingBox(int left, int right, vector<Interval>
 inline void KDTreeBase::computeMinMax(int left, int right, int dim, Interval &bound) {
     float min_val = points_[left][dim];
     float max_val = points_[left][dim];
-    for (int i = left + 1; i <= right; ++i) {
+    for (int i = left + 1; i < right; ++i) {
 
         float val = points_[i][dim];
 
@@ -167,20 +168,21 @@ inline void KDTreeBase::computeMinMax(int left, int right, int dim, Interval &bo
 }
 
 void KDTreeBase::init(const Point &ref) {
-    sample_points.clear();
-    sample_points.push_back(ref);
+    sample_points[0]=ref;
     root_->init(ref);
 }
 
-void KDTreeBase::cout_sample() {
-    for (const Point &p: sample_points) {
-        std::cout << p;
+void KDTreeBase::cout_sample(int sampleSize) {
+    for(int i = 0 ;i < sampleSize;i++){
+        std::cout << sample_points[i];
     }
 }
 
-int KDTreeBase::verify() {
+int KDTreeBase::verify(int sampleSize) {
     int idsum = 0;
-    for(const auto s:sample_points){idsum += s.id;}
+    for(int i = 0 ; i < sampleSize;i++){
+        idsum += sample_points[i].id;
+    }
     return idsum;
 }
 

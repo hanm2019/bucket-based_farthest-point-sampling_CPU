@@ -14,10 +14,11 @@ class KDTreeBase {
 public:
 
 
-    typedef std::vector <Point> Points;
+    typedef Point* Points;
     typedef std::vector <Point> *PointPtr;
     typedef KDNode *NodePtr;
 
+    int pointSize;
     int memory_ops;
     int mult_ops;
     Points sample_points;
@@ -25,7 +26,7 @@ public:
     Points points_;
 
 public:
-    KDTreeBase(Points &data);
+    KDTreeBase(Points &data, int pointSize, Points &samplePoints);
 
     ~KDTreeBase() ;
 
@@ -35,7 +36,7 @@ public:
 
     NodePtr get_root();
 
-    int verify();
+    int verify(int sampleSize);
 
     NodePtr divideTree(int left, int right, std::vector <Interval> &bbox_ptr, int curr_high);
 
@@ -55,7 +56,7 @@ public:
 
     void init(const Point &ref) ;
 
-    void cout_sample();
+    void cout_sample(int sampleSize);
 
     virtual void addNode(NodePtr p) = 0;
 

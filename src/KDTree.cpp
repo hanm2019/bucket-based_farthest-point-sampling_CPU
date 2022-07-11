@@ -17,7 +17,7 @@ void KDTree::sample(const int sample_num) {
     Point ref_point;
     for (int i = 0; i < sample_num; i++) {
         ref_point = max_point();
-        sample_points.push_back(ref_point);
+        sample_points[i] = ref_point;
         update_distance(ref_point);
     }
 }
@@ -26,7 +26,7 @@ bool KDTree::leftNode(int high, int count) {
     return count == 0;
 }
 
-KDTree::KDTree(KDTreeBase::Points &data) : KDTreeBase(data) {
+KDTree::KDTree(KDTreeBase::Points &data, int pointSize, KDTreeBase::Points &samplePoints) : KDTreeBase(data,pointSize, samplePoints) {
 
 }
 

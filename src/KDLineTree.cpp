@@ -26,9 +26,9 @@ void KDLineTree::update_distance(const Point &ref_point) {
 void KDLineTree::sample(const int sample_num) {
     Point ref_point;
 
-    for (int i = 0; i < sample_num; i++) {
+    for (int i = 1; i < sample_num; i++) {
         ref_point = max_point();
-        sample_points.push_back(ref_point);
+        sample_points[i] = ref_point;
         update_distance(ref_point);
     }
 }
@@ -37,8 +37,7 @@ bool KDLineTree::leftNode(int high, int count) {
     return high == high_ || count == 0;
 }
 
-KDLineTree::KDLineTree(KDTreeBase::Points &data, int treeHigh) : KDTreeBase(data) {
-    high_ = treeHigh;
+KDLineTree::KDLineTree(KDTreeBase::Points &data, int pointSize, int treeHigh,KDTreeBase::Points &samplePoints) : KDTreeBase(data,pointSize, samplePoints),high_(treeHigh) {
     KDNode_list.clear();
 }
 

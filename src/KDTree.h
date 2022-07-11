@@ -10,7 +10,7 @@
 class KDTree :public KDTreeBase{
 public:
 
-    explicit KDTree(KDTreeBase::Points &data);
+    explicit KDTree(KDTreeBase::Points &data, int pointSize, KDTreeBase::Points &samplePoints);
 
     Point max_point() override;
 

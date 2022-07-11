@@ -23,46 +23,54 @@ int main(int argc,char** argv) {
     }
 
     std::vector <Point> point_data;
-    std::vector <Point> sample_points;
     int count = 0;
     if (fin.is_open()) {
         float xx, yy, zz;
         while (fin >> xx >> yy >> zz) {
-            point_data.push_back({xx, yy, zz, 10000000, count});
+            point_data.emplace_back(xx, yy, zz, 10000000, count);
             count++;
         }
     }
     fin.close();
-    Point init_point = point_data[0];
+    const int pointSize = point_data.size();
+    auto points = (Point*)malloc(pointSize* sizeof(Point));
+    for(int i = 0; i < pointSize;i++){
+        points[i] = point_data[i];
+    }
+    auto samplePoints = (Point*) malloc(sample_number*sizeof(Point));
+
+    Point init_point = points[0];
     clock_t start_t, end_t;
     start_t = clock();
     Point ref_point;
     ref_point = init_point;
+    samplePoints[0] = ref_point;
     float dis, max_dis;
     Point max_point;
-    for (int i = 0; i < sample_number; i++) {
+    for (int i = 1; i < sample_number; i++) {
         max_dis = 0;
-        for (auto &p: point_data) {
-            dis = p.updatedistance(ref_point);
+        for(int j = 0; j < pointSize; j++){
+            dis = points[j].updatedistance(ref_point);
             if (dis > max_dis) {
                 max_dis = dis;
-                max_point = p;
+                max_point = points[j];
             }
         }
         ref_point = max_point;
-        sample_points.push_back(ref_point);
+        samplePoints[i] = ref_point;
     }
 
     end_t = clock();
     std::cout << "Report:" << std::endl;
     std::cout << "    Type   :Baseline" << std::endl;
-    std::cout << "    Points :" << point_data.size() << std::endl;
+    std::cout << "    Points :" << pointSize << std::endl;
     std::cout << "    NPoint :" << sample_number << std::endl;
     std::cout << "    RunTime:" << (double) (end_t - start_t) << "us" << std::endl;
     int checkCode = 0;
-    for(const auto& s:sample_points){checkCode += s.id;}
+    for(int i = 0;i < sample_number; i++){checkCode += samplePoints[i].id;}
     std::cout << "    Check  :" << checkCode << std::endl;
     std::cout << "    Param  :" << filename << std::endl;
-    std::time_t result = std::time(NULL);
+    std::time_t result = std::time(nullptr);
     std::cout << "  Timestamp:" << std::asctime(std::localtime(&result)) << std::endl;
+    free(points);
 }
