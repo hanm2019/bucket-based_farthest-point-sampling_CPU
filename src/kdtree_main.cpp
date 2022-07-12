@@ -43,16 +43,29 @@ int main(int argc, char **argv) {
         }
     }
     fin.close();
+    const int pointSize = point_data.size();
+    //copy to array
+    auto points = (Point*)malloc(pointSize * sizeof(Point));
+    for(int i = 0; i < pointSize;i++){
+        points[i] = point_data[i];
+    }
+
+    auto samplePoints = (Point*) malloc(sample_number*sizeof(Point));
 
     clock_t start_t, end_t;
     clock_t start_build_t, end_build_t;
     // 建立KD树
-    Point init_point = point_data[0];
+    Point init_point = points[0];
     start_t = clock();
+    samplePoints[0] = init_point;
+
+    //auto test = (KDNode*)malloc(pointSize * sizeof(KDNode));
+
+
 #ifdef LINE
-    KDLineTree tree = KDLineTree(point_data,kd_height);
+    KDLineTree tree = KDLineTree(points,pointSize,kd_height,samplePoints);
 #else
-    KDTree tree = KDTree(point_data);
+    KDTree tree = KDTree(points,pointSize,samplePoints);
 #endif
     start_build_t = clock();
     tree.buildKDtree();
@@ -68,16 +81,20 @@ int main(int argc, char **argv) {
     std::cout << "    Type   :KDTree" << std::endl;
 
 #endif
-    std::cout << "    Points :" << point_data.size() << std::endl;
+    std::cout << "    Points :" << pointSize << std::endl;
     std::cout << "    NPoint :" << sample_number << std::endl;
     std::cout << "    RunTime:" << (double) (end_t - start_t) << "us" << std::endl;
     std::cout << "    Build  :" << (double) (end_build_t - start_build_t) << "us" << std::endl;
     std::cout << "    MM(%)  : " << tree.memory_ops * 100.0 / (point_data.size() * sample_number) << "%"
               << std::endl;
     std::cout << "    OP(%)  : " << tree.mult_ops * 100.0 / (point_data.size() * sample_number) << "%" << std::endl;
-    std::cout << "    Check  :" << tree.verify() << std::endl;
+    std::cout << "    Check  :" << tree.verify(sample_number) << std::endl;
     std::cout << "    Param  :" << filename << std::endl;
-    std::time_t result = std::time(NULL);
+    std::time_t result = std::time(nullptr);
     std::cout << "  Timestamp:" << std::asctime(std::localtime(&result)) << std::endl;
+
+    free(samplePoints);
+    free(points);
+    //free(test);
     return 0;
 }

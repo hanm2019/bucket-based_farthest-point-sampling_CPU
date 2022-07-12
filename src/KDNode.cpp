@@ -3,11 +3,13 @@
 //
 
 #include "KDNode.h"
-KDNode::KDNode() :points(nullptr), max_point(),left(nullptr), right(nullptr) {
+KDNode::KDNode() :points(nullptr), pointLeft(0),pointRight(0), max_point(),left(nullptr),right(nullptr) {
 }
 
 KDNode::KDNode(const KDNode &a) {
     points = a.points;
+    pointLeft = a.pointLeft;
+    pointRight = a.pointRight;
     delaypoints = a.delaypoints;
     max_point = a.max_point;
     left = a.left;
@@ -24,11 +26,11 @@ void KDNode::init(const Point &ref) {
     } else {
         float dis;
         float maxdis(-1);
-        for (auto &it: *points) {
-            dis = it.updatedistance(ref);
+        for(int i = pointLeft; i < pointRight; i++){
+            dis = points[i].updatedistance(ref);
             if (dis > maxdis) {
                 maxdis = dis;
-                max_point = it;
+                max_point = points[i];
             }
         }
     }
@@ -47,7 +49,7 @@ float KDNode::bound_distance(const Point &ref_point) {
         dim_distance = 0;
         if (ref_point[cur_dim] > bbox[cur_dim].high) dim_distance = ref_point[cur_dim] - bbox[cur_dim].high;
         if (ref_point[cur_dim] < bbox[cur_dim].low) dim_distance = bbox[cur_dim].low - ref_point[cur_dim];
-        bound_dis += pow(dim_distance, 2);
+        bound_dis += pow2(dim_distance);
     }
     return bound_dis;
 }
@@ -57,7 +59,7 @@ void KDNode::send_delay_point(const Point &point) {
 }
 
 void KDNode::update_distance(int &memory_ops, int &mult_ops) {
-    for(const auto ref_point: this->waitpoints){
+    for(const auto& ref_point: this->waitpoints){
         float lastmax_distance = this->max_point.dis;
         float cur_distance = this->max_point.distance(ref_point);
         mult_ops++;
@@ -90,16 +92,16 @@ void KDNode::update_distance(int &memory_ops, int &mult_ops) {
                 this->delaypoints.push_back(ref_point);
                 for (const auto &delay_point: delaypoints) {
                     maxdis = -1;
-                    for (auto &it: *points) {
-                        dis = it.updatedistance(delay_point);
+                    for(int i = pointLeft; i < pointRight; i++){
+                        dis = points[i].updatedistance(delay_point);
                         if (dis > maxdis) {
                             maxdis = dis;
-                            max_point = it;
+                            max_point = points[i];
                         }
                     }
                 }
-                mult_ops += delaypoints.size() * points->size();
-                memory_ops += points->size();
+                mult_ops += delaypoints.size() * (pointRight - pointLeft);
+                memory_ops += (pointRight - pointLeft);
                 this->delaypoints.clear();
             }
         }
@@ -108,8 +110,8 @@ void KDNode::update_distance(int &memory_ops, int &mult_ops) {
 }
 
 void KDNode::reset() {
-    for(auto p:*points){
-        p.reset();
+    for(int i = pointLeft; i < pointRight;i++){
+        points[i].reset();
     }
     this->waitpoints.clear();
     this->delaypoints.clear();
@@ -123,5 +125,5 @@ void KDNode::reset() {
 int KDNode::size() {
     if(this->left && this->right)
         return this->left->size() + this->right->size();
-    return this->points->size();
+    return (pointRight - pointLeft);
 }

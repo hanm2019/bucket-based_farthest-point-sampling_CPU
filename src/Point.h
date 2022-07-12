@@ -7,10 +7,11 @@
 
 #include "cmath"
 #include "iostream"
+#include "utils.h"
 
 class Point {
 public:
-    float pos[3]; // x, y, z
+    float pos[3]{}; // x, y, z
     float dis;
     int id;
 

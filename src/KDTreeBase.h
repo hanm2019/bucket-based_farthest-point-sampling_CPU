@@ -9,15 +9,16 @@
 #include "vector"
 #include "KDNode.h"
 
-
+#define DIM 3
 class KDTreeBase {
 public:
 
 
-    typedef std::vector <Point> Points;
+    typedef Point* Points;
     typedef std::vector <Point> *PointPtr;
     typedef KDNode *NodePtr;
 
+    int pointSize;
     int memory_ops;
     int mult_ops;
     Points sample_points;
@@ -25,7 +26,7 @@ public:
     Points points_;
 
 public:
-    KDTreeBase(Points &data);
+    KDTreeBase(Points &data, int pointSize, Points &samplePoints);
 
     ~KDTreeBase() ;
 
@@ -35,27 +36,25 @@ public:
 
     NodePtr get_root();
 
-    int verify();
+    int verify(int sampleSize);
 
-    NodePtr divideTree(int left, int right, std::vector <Interval> &bbox_ptr, int curr_high);
+    NodePtr divideTree(int left, int right, Interval (&bbox_ptr)[DIM], int curr_high);
 
     void planeSplit(int left, int right, int split_dim,
-                    float split_val, int &lim1, int &lim2) ;
+                    float split_val, int &lim1) ;
 
 
     void qSelectMedian(int dim , int left, int right , float &median_value) ;
 
-    static void findSplitDim(int &best_dim, std::vector <Interval> &bbox_ptr);
+    static void findSplitDim(int &best_dim, Interval (&bbox_ptr)[DIM]);
 
-    inline void computeBoundingBox(int left, int right, std::vector <Interval> &bbox) ;
-
-    inline void computeBoundingBox(int left, int right, std::vector <Interval> &bbox, int dim) ;
+    inline void computeBoundingBox(int left, int right, Interval (&bbox_ptr)[DIM]) ;
 
     inline void computeMinMax(int left, int right, int dim, Interval &bound) ;
 
     void init(const Point &ref) ;
 
-    void cout_sample();
+    void cout_sample(int sampleSize);
 
     virtual void addNode(NodePtr p) = 0;
 
