@@ -9,7 +9,7 @@
 #include "vector"
 #include "KDNode.h"
 
-
+#define DIM 3
 class KDTreeBase {
 public:
 
@@ -38,19 +38,17 @@ public:
 
     int verify(int sampleSize);
 
-    NodePtr divideTree(int left, int right, std::vector <Interval> &bbox_ptr, int curr_high);
+    NodePtr divideTree(int left, int right, Interval (&bbox_ptr)[DIM], int curr_high);
 
     void planeSplit(int left, int right, int split_dim,
-                    float split_val, int &lim1, int &lim2) ;
+                    float split_val, int &lim1) ;
 
 
     void qSelectMedian(int dim , int left, int right , float &median_value) ;
 
-    static void findSplitDim(int &best_dim, std::vector <Interval> &bbox_ptr);
+    static void findSplitDim(int &best_dim, Interval (&bbox_ptr)[DIM]);
 
-    inline void computeBoundingBox(int left, int right, std::vector <Interval> &bbox) ;
-
-    inline void computeBoundingBox(int left, int right, std::vector <Interval> &bbox, int dim) ;
+    inline void computeBoundingBox(int left, int right, Interval (&bbox_ptr)[DIM]) ;
 
     inline void computeMinMax(int left, int right, int dim, Interval &bound) ;
 

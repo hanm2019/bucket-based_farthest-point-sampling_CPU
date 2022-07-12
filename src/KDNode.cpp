@@ -3,7 +3,7 @@
 //
 
 #include "KDNode.h"
-KDNode::KDNode(Points data) :points(data), pointLeft(0),pointRight(0), max_point(),left(nullptr),right(nullptr) {
+KDNode::KDNode() :points(nullptr), pointLeft(0),pointRight(0), max_point(),left(nullptr),right(nullptr) {
 }
 
 KDNode::KDNode(const KDNode &a) {

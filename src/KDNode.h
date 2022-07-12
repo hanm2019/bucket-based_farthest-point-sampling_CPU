@@ -17,14 +17,14 @@ public:
     Points points;
     int pointLeft, pointRight;
 
-    std::vector <Interval> bbox;
+    Interval bbox[3];
     std::vector<Point> waitpoints;
     std::vector <Point> delaypoints;
     Point max_point;
     KDNode *left;
     KDNode *right;
 
-    KDNode(Points data);
+    KDNode();
 
     KDNode(const KDNode &a);
 

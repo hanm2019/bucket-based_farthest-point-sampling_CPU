@@ -58,6 +58,10 @@ int main(int argc, char **argv) {
     Point init_point = points[0];
     start_t = clock();
     samplePoints[0] = init_point;
+
+    //auto test = (KDNode*)malloc(pointSize * sizeof(KDNode));
+
+
 #ifdef LINE
     KDLineTree tree = KDLineTree(points,pointSize,kd_height,samplePoints);
 #else
@@ -91,6 +95,6 @@ int main(int argc, char **argv) {
 
     free(samplePoints);
     free(points);
-
+    //free(test);
     return 0;
 }
