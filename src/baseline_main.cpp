@@ -66,7 +66,7 @@ int main(int argc,char** argv) {
     std::cout << "    Points :" << pointSize << std::endl;
     std::cout << "    NPoint :" << sample_number << std::endl;
     std::cout << "    RunTime:" << (double) (end_t - start_t) << "us" << std::endl;
-    int checkCode = 0;
+    long checkCode = 0;
     for(int i = 0;i < sample_number; i++){checkCode += samplePoints[i].id;}
     std::cout << "    Check  :" << checkCode << std::endl;
     std::cout << "    Param  :" << filename << std::endl;
