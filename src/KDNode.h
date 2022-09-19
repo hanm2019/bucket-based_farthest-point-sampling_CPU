@@ -16,6 +16,7 @@ public:
     typedef Point* Points;
     Points points;
     int pointLeft, pointRight;
+    int idx;
 
     Interval bbox[3];
     std::vector<Point> waitpoints;

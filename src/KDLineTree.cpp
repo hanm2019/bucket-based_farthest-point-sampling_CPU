@@ -30,6 +30,7 @@ void KDLineTree::sample(const int sample_num) {
         ref_point = max_point();
         sample_points[i] = ref_point;
         update_distance(ref_point);
+        printf("Next\n");
     }
 }
 
@@ -46,5 +47,7 @@ KDLineTree::~KDLineTree(){
 }
 
 void KDLineTree::addNode(KDTreeBase::NodePtr p) {
+    int nodeIdx = KDNode_list.size();
+    p->idx = nodeIdx;
     KDNode_list.push_back(p);
 }

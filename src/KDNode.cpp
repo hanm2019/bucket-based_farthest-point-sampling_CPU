@@ -58,6 +58,10 @@ void KDNode::send_delay_point(const Point &point) {
     this->waitpoints.push_back(point);
 }
 
+void logging(int idx, int pointSize){
+    printf("Calculate Bucket:%d, size:%d\n", idx, pointSize);
+}
+
 void KDNode::update_distance(int &memory_ops, int &mult_ops) {
     for(const auto& ref_point: this->waitpoints){
         float lastmax_distance = this->max_point.dis;
@@ -69,6 +73,22 @@ void KDNode::update_distance(int &memory_ops, int &mult_ops) {
             mult_ops++;
             if (boundary_distance < lastmax_distance) {
                 this->delaypoints.push_back(ref_point);
+                if(this->delaypoints.size() >= 4){
+                    logging(this->idx, pointRight - pointLeft);
+                    float dis;
+                    float maxdis;
+                    for (const auto &delay_point: delaypoints) {
+                        maxdis = -1;
+                        for(int i = pointLeft; i < pointRight; i++){
+                            dis = points[i].updatedistance(delay_point);
+                            if (dis > maxdis) {
+                                maxdis = dis;
+                                max_point = points[i];
+                            }
+                        }
+                    }
+                    this->delaypoints.clear();
+                }
             }
         } else {
             if (this->right && this->left) {
@@ -87,6 +107,7 @@ void KDNode::update_distance(int &memory_ops, int &mult_ops) {
 
                 updateMaxPoint(this->left->max_point, this->right->max_point);
             } else {
+                logging(this->idx, pointRight - pointLeft);
                 float dis;
                 float maxdis;
                 this->delaypoints.push_back(ref_point);
