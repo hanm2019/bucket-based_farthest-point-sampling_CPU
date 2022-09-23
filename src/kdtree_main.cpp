@@ -38,7 +38,11 @@ int main(int argc, char **argv) {
     if (fin.is_open()) {
         double xx, yy, zz;
         while (fin >> xx >> yy >> zz) {
+#ifndef SCALE
             point_data.emplace_back(xx, yy, zz, 1 << 30, count);
+#else
+	    point_data.emplace_back(xx / 100.0, yy / 100.0, zz / 100.0, 1 << 30, count);
+#endif
             count++;
         }
     }

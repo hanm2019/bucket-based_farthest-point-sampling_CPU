@@ -30,7 +30,9 @@ void KDLineTree::sample(const int sample_num) {
         ref_point = max_point();
         sample_points[i] = ref_point;
         update_distance(ref_point);
-        printf("Next\n");
+#ifdef LOG
+	printf("Next Iteration\n");
+#endif
     }
 }
 

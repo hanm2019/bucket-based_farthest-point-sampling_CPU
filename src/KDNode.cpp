@@ -73,7 +73,12 @@ void KDNode::update_distance(int &memory_ops, int &mult_ops) {
             mult_ops++;
             if (boundary_distance < lastmax_distance) {
                 this->delaypoints.push_back(ref_point);
-                if(this->delaypoints.size() >= 4){
+#ifdef NOMAPPING
+
+#ifndef MERGESIZE
+    #define MERGESIZE 4
+#endif
+                if(this->delaypoints.size() >= MERGESIZE){
                     logging(this->idx, pointRight - pointLeft);
                     float dis;
                     float maxdis;
@@ -89,6 +94,7 @@ void KDNode::update_distance(int &memory_ops, int &mult_ops) {
                     }
                     this->delaypoints.clear();
                 }
+#endif
             }
         } else {
             if (this->right && this->left) {

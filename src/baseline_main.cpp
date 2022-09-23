@@ -37,6 +37,7 @@ int main(int argc,char** argv) {
     for(int i = 0; i < pointSize;i++){
         points[i] = point_data[i];
     }
+    printf("load finish, point size:%d\n", pointSize);
     auto samplePoints = (Point*) malloc(sample_number*sizeof(Point));
 
     Point init_point = points[0];
