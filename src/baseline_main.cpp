@@ -37,7 +37,7 @@ int main(int argc,char** argv) {
     for(int i = 0; i < pointSize;i++){
         points[i] = point_data[i];
     }
-    printf("load finish, point size:%d\n", pointSize);
+    printf("Total:%d\n", pointSize);
     auto samplePoints = (Point*) malloc(sample_number*sizeof(Point));
 
     Point init_point = points[0];
@@ -50,17 +50,29 @@ int main(int argc,char** argv) {
     Point max_point;
     for (int i = 1; i < sample_number; i++) {
         max_dis = 0;
+#ifdef METRICS
+	int updateDistanceCount = 0;
+#endif
         for(int j = 0; j < pointSize; j++){
+
+#ifdef METRICS
+            dis = points[j].updateDistanceAndCount(ref_point, updateDistanceCount);
+#else
             dis = points[j].updatedistance(ref_point);
+#endif
             if (dis > max_dis) {
                 max_dis = dis;
                 max_point = points[j];
             }
         }
+#ifdef METRICS
+        printf("%d:%d\n", i, updateDistanceCount);
+#endif
         ref_point = max_point;
         samplePoints[i] = ref_point;
     }
 
+#ifndef  METRICS
     end_t = clock();
     std::cout << "Report:" << std::endl;
     std::cout << "    Type   :Baseline" << std::endl;
@@ -73,5 +85,6 @@ int main(int argc,char** argv) {
     std::cout << "    Param  :" << filename << std::endl;
     std::time_t result = std::time(nullptr);
     std::cout << "  Timestamp:" << std::asctime(std::localtime(&result)) << std::endl;
+#endif
     free(points);
 }

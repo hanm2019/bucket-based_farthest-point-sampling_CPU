@@ -15,10 +15,17 @@ void KDTree::update_distance(const Point &ref_point) {
 
 void KDTree::sample(const int sample_num) {
     Point ref_point;
-    for (int i = 0; i < sample_num; i++) {
+#ifdef METRICS
+    int pre_memory_ops = 0;
+#endif
+    for (int i = 1; i < sample_num; i++) {
         ref_point = max_point();
         sample_points[i] = ref_point;
         update_distance(ref_point);
+#ifdef METRICS
+	printf("%d:%d\n", i, memory_ops - pre_memory_ops);
+	pre_memory_ops = memory_ops;
+#endif
     }
 }
 

@@ -19,6 +19,15 @@ float Point::updatedistance(const Point &ref) {
     return this->dis;
 }
 
+float Point::updateDistanceAndCount(const Point &ref, int &count) {
+    float tempDistance = distance(ref);
+    if(tempDistance < this->dis) {
+        this->dis = tempDistance;
+        count++;
+    }
+    return this->dis;
+}
+
 Point::Point() {
     this->dis = 1e20;
     this->pos[0] = 0;

@@ -79,7 +79,7 @@ void KDNode::update_distance(int &memory_ops, int &mult_ops) {
     #define MERGESIZE 4
 #endif
                 if(this->delaypoints.size() >= MERGESIZE){
-                    logging(this->idx, pointRight - pointLeft);
+                    //logging(this->idx, pointRight - pointLeft);
                     float dis;
                     float maxdis;
                     for (const auto &delay_point: delaypoints) {
@@ -113,7 +113,7 @@ void KDNode::update_distance(int &memory_ops, int &mult_ops) {
 
                 updateMaxPoint(this->left->max_point, this->right->max_point);
             } else {
-                logging(this->idx, pointRight - pointLeft);
+                //logging(this->idx, pointRight - pointLeft);
                 float dis;
                 float maxdis;
                 this->delaypoints.push_back(ref_point);

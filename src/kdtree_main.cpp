@@ -55,6 +55,9 @@ int main(int argc, char **argv) {
     }
 
     auto samplePoints = (Point*) malloc(sample_number*sizeof(Point));
+#ifdef METRICS
+    printf("Total:%d\n", pointSize);
+#endif
 
     clock_t start_t, end_t;
     clock_t start_build_t, end_build_t;
@@ -78,6 +81,7 @@ int main(int argc, char **argv) {
     tree.sample(sample_number);
 
     end_t = clock();
+#ifndef METRICS
     std::cout << "Report:" << std::endl;
 #ifdef LINE
     std::cout << "    Type   :KDLineTree  " << "High:" << kd_height << std::endl;
@@ -97,6 +101,7 @@ int main(int argc, char **argv) {
     std::time_t result = std::time(nullptr);
     std::cout << "  Timestamp:" << std::asctime(std::localtime(&result)) << std::endl;
 
+#endif
     free(samplePoints);
     free(points);
     //free(test);

@@ -33,6 +33,8 @@ public:
     void reset();
 
     float updatedistance(const Point &ref) ;
+
+    float updateDistanceAndCount(const Point &ref, int &count);
 };
 
 
