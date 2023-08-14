@@ -11,7 +11,6 @@ we present the CPU implementation and [GPU implementation](https://github.com/ha
 # BUILD
 
 ```
-cd CPU
 cmake -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build --config Release
 
