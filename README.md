@@ -1,32 +1,54 @@
-# KD-Tree based Farthest point sampling for largest-sacled point clouds
+# Bucket-based Farthest point sampling for largest-scaled point clouds
 
-we use an approximate KD-Tree to devide the point clouds into multi-buckets and use two geometry inequality to reduce the distance computation times and the data which need to load from memory
+we use an approximate KD-Tree to divide the point clouds into multi-buckets and use two geometry inequality to reduce the distance computation times and the data which need to load from memory
 
-we achieve  `42ms` on CPU for a 50k points (sample 4K point subset)
+we achieve  `42ms` on CPU for 50k points (generate 4K sample points )
+
+we present the CPU implementation and [GPU implementation](https://github.com/hanm2019/FPS_GPU) of bucket-based farthest point sampling.
+
+
+
+# BUILD
+
+```
+cd CPU
+cmake -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build --config Release
+
+```
+
+ then, three executable files are generated:
+
+* baseline: the conventional implementation of  FPS, used for performance baseline.
+
+* kdline: bucket-based farthest point sampling, each bucket contains multiple points.  **high performance** 
+
+*  kdtree: bucket-based farthest point sampling, each bucket contains one point. 
+
+  
 
 # USAGE
 
 ```
-make build
 ./baseline  num_sample_point filename
 ./kdtree num_sample_point filename
 ./kdlinetree tree_high num_sample_point filename
 ```
 
-
 # Cite
+
 Please kindly consider citing this repo in your publications if it helps your research.
 
 ```
-@misc{KD-Tree-Based-Farthest-point-sampling,
-    title={KD-Tree Based Farthest point sampling},
-    author={Limin Xiao, Liang Wang, Meng Han},
-    howpublished = {\url{https://github.com/hanm2019/KD-Tree-Based-Farthest-point-sampling}},
-    year={2021}
+@article{han2023quickfps,
+  title={QuickFPS: Architecture and Algorithm Co-Design for Farthest Point Sampling in Large-Scale Point Clouds},
+  author={Han, Meng and Wang, Liang and Xiao, Limin and Zhang, Hao and Zhang, Chenhao and Xu, Xiangrong and Zhu, Jianfeng},
+  journal={IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems},
+  year={2023},
+  publisher={IEEE}
 }
 ```
 
-# TODO
-we will write this to CUDA to enable running more faster and offer an API for PointNet++ based point cloud learning speed up
-
-in addition, We have designing an accelerator to achieve FPS use only `1ms` to  down-sampling an 60K pointcloud to 4K 
+# Resources
+1. [the GPU implementation of FPS](https://github.com/hanm2019/FPS_GPU)
+2. the reference paper: [QuickFPS: Architecture and Algorithm Co-Design for Farthest Point Sampling in Large-Scale Point Clouds](https://ieeexplore.ieee.org/abstract/document/10122654)
