@@ -8,7 +8,8 @@ we achieve  `42ms` on CPU for 50k points (generate 4K sample points )
 
 we present the CPU implementation and [GPU implementation](https://github.com/hanm2019/FPS_GPU) of bucket-based farthest point sampling.
 
-
+# Importance
+There is a [better vision](https://github.com/leonardodalinky/fpsample) of bucket-based_farthest point sampling on single-thread CPU. 
 
 # BUILD
 
@@ -47,6 +48,14 @@ Please kindly consider citing this repo in your publications if it helps your re
   journal={IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems},
   year={2023},
   publisher={IEEE}
+}
+
+@inproceedings{han2023fusefps,
+  title={FuseFPS: Accelerating Farthest Point Sampling with Fusing KD-tree Construction for Point Clouds},
+  author={Han, Meng and Wang, Liang and Xiao, Limin and Zhang, Hao and Zhang, Chenhao and Xie, Xilong and Zheng, Shuai and Dong, Jin},
+  booktitle={2024 29th Asia and South Pacific Design Automation Conference (ASP-DAC)},
+  year={2024},
+  organization={IEEE}
 }
 ```
 
