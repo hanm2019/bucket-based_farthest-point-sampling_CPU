@@ -9,7 +9,7 @@ we achieve  `42ms` on CPU for 50k points (generate 4K sample points )
 we present the CPU implementation and [GPU implementation](https://github.com/hanm2019/FPS_GPU) of bucket-based farthest point sampling.
 
 # Importance
-There is a [better vision](https://github.com/leonardodalinky/fpsample) of bucket-based_farthest point sampling on single-thread CPU. 
+There is a [better repo](https://github.com/leonardodalinky/fpsample) for implementing bucket-based_farthest point sampling on the single-thread CPU. 
 
 # BUILD
 
